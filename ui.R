@@ -8,9 +8,9 @@ ui <- fluidPage(title="Cuentas Claras",
         column(12,
                tags$div(
                         class = "d-flex justify-content-center",
-                        column(4,align='left',actionButton('add','Añadir Actividad',width='70%',icon("plus-circle"))),
+                        column(4,botonUI('bt1','Añadir Actividad',icon=icon('plus-circle'))),
                         column(4,br()),
-                        column(4,align='right',actionButton('viewv','Ver Viajeros',width='70%',icon("users")))
+                        column(4,botonUI('bt2','Ver Viajeros',icon=icon('users')))
                 )),
         mainPanel()
         )
