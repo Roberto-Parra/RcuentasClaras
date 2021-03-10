@@ -2,6 +2,7 @@ server <- function(input, output) {
         df<-reactiveValues()
         df$reload<-NULL
         
+        ##### Agregar actividad #########
         observeEvent(input$`bt1-but`, {
                 showModal(modalDialog(
                         title = "Nueva Actividad",
@@ -14,9 +15,22 @@ server <- function(input, output) {
                 ))
                 
         })
+        ####### Ver Viajeros #########
+        observeEvent(input$`bt2-but`, {
+                showModal(modalDialog(
+                        title = "Viajeros",
+                        #textoUI("nact","Nombre"),
+                        footer = tagList(
+                                modalButton("Volver",icon=icon('arrow-circle-left')),
+                                botonUI('bt4',"Añadir Viajero",width = NULL,icon=icon('plus-circle'))
+                        )
+                ))
+                
+        })
+        ######## Guardar Nueva Actividad #############
         observeEvent(input$`bt3-but`,{
                 req(input$`nact-tx`)
-                data<-data.frame(nombre=input$`nact-tx`,Vigencia=0)
+                data<-data.frame(nombre=input$`nact-tx`)
                 db <- dbConnect(SQLite(), dbname="./data/cuentasclaras.sqlite")
                 dbWriteTable(db,"Actividades",data,append=TRUE)
                 dbDisconnect(db)
@@ -34,34 +48,9 @@ server <- function(input, output) {
                 return(casos)
         })
         
-        #df <- reactiveVal(NULL)
-        
-        
-        # df <- reactiveVal({
-        #         db <- dbConnect(SQLite(), "./data/cuentasclaras.sqlite")
-        #         casos<-dbReadTable(db, "Actividades")
-        #         RSQLite::dbDisconnect(db)
-        #         return(casos)
-        #         
-        # }
-                
-                # tibble(
-                #         Name = c('Dilbert', 'Alice', 'Wally', 'Ashok', 'Dogbert'),
-                #         Motivation = c(62, 73, 3, 99, 52),
-                #         Actions = shinyInput(
-                #                 FUN = actionButton,
-                #                 n = 5,
-                #                 id = 'button_',
-                #                 label = "Fire",
-                #                 onclick = 'Shiny.setInputValue(\"select_button\", this.id, {priority: \"event\"})'
-                #         )
-                # )
-        #)
-        
         output$actividades <- DT::renderDT({
-                
                 dt<-datatable(tabla(),
-                              colnames=c("Actividades0","Actividades"),
+                              colnames=c("Actividades","id"),
                               rownames = FALSE,
                               #filter = 'top',
                               class='display compact cell-border',
@@ -72,23 +61,7 @@ server <- function(input, output) {
                                       dom = 'tp',
                                       pageLength = 10,
                                       ordering=FALSE,
-                                      columnDefs = list(
-                                      #         list(className = 'dt-center',targets=c(1:3,5:9))
-                                                list(visible=FALSE,targets=c(0,2,3,4))
-                                      #         ,list(targets = c(2,5:9),width = '70px')
-                                      #         ,list(targets = c(1,3),width = '100px')
-                                      #         ,list(targets = 4,width = '525px')
-                                       )
-                              )
-                              
-                              
-                              
-                              )
-        #         
-        #         df()
-        #         
-        # },escape = FALSE,selection = 'none'
-        })
-        
-        
+                                      columnDefs = list(list(visible=FALSE,targets=c(0,2)))
+                                      )
+                              )})
 }
