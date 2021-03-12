@@ -1,4 +1,5 @@
-ui <- fluidPage(title="Cuentas Claras",
+ui <- fluidPage(
+        title="Cuentas Claras",
         theme = bslib::bs_theme(version = 4, bootswatch = "minty"),
         includeCSS("www/style.css"),
         useShinyalert(),
